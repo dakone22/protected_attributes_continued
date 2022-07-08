@@ -63,6 +63,10 @@ module ActiveRecord
         @mass_assignment_options    = options
 
         unless options[:without_protection]
+          # unless attributes.is_a?(ActionController::Parameters)
+            logger.warn("[protected_attributes] Called `assign_attributes` with:\n"+
+                                "attributes = #{attributes}\noptions = #{options}\nBacktrace:\n#{caller_locations}")
+          # end
           attributes = sanitize_for_mass_assignment(attributes, mass_assignment_role)
         end
 
