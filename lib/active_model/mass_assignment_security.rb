@@ -345,10 +345,13 @@ module ActiveModel
 
     def sanitize_for_mass_assignment(attributes, role = nil) #:nodoc:
       if _uses_mass_assignment_security
-        # unless attributes.is_a?(ActionController::Parameters)
-        logger.warn("[protected_attributes] Called `assign_attributes` with:\n"+
-                              "attributes (#{attributes.class.name}) = #{attributes}\nBacktrace:\n#{caller_locations}")
-        # end
+        unless attributes.is_a?(ActionController::Parameters)
+          ActiveSupport::Deprecation.warn(
+            "[protected_attributes] Called `assign_attributes` with:\n" \
+            "attributes (#{attributes.class.name}) = #{attributes}\n"\
+            "Backtrace:\n#{caller_locations.join("\n")}"
+          )
+        end
         _mass_assignment_sanitizer.sanitize(self.class, attributes, mass_assignment_authorizer(role))
       else
         sanitize_forbidden_attributes(attributes)
