@@ -62,6 +62,16 @@ module ActiveRecord
         previous_options            = @mass_assignment_options
         @mass_assignment_options    = options
 
+        # Deprecation warning protected attributes
+        if _uses_mass_assignment_security && !attributes.is_a?(ActionController::Parameters) || !options.empty?
+          ActiveSupport::Deprecation.warn(
+            "[protected_attributes] Called `assign_attributes` for #{self.class.name} with:\n" \
+            "attributes (#{attributes.class.name}) = #{attributes}\n"\
+            "options (#{options.class.name}) = #{options}\n"\
+            "Backtrace:\n#{caller_locations.join("\n")}"
+          )
+        end
+
         unless options[:without_protection]
           attributes = sanitize_for_mass_assignment(attributes, mass_assignment_role)
         end
