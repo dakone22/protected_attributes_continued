@@ -347,7 +347,7 @@ module ActiveModel
       if _uses_mass_assignment_security
         # unless attributes.is_a?(ActionController::Parameters)
         logger.warn("[protected_attributes] Called `assign_attributes` with:\n"+
-                              "attributes = #{attributes}\nBacktrace:\n#{caller_locations}")
+                              "attributes (#{attributes.class.name}) = #{attributes}\nBacktrace:\n#{caller_locations}")
         # end
         _mass_assignment_sanitizer.sanitize(self.class, attributes, mass_assignment_authorizer(role))
       else
