@@ -347,7 +347,7 @@ module ActiveModel
       if _uses_mass_assignment_security
         unless attributes.is_a?(ActionController::Parameters)
           ActiveSupport::Deprecation.warn(
-            "[protected_attributes] Called `assign_attributes` with:\n" \
+            "[protected_attributes] Called `assign_attributes` for #{self.class.name} with:\n" \
             "attributes (#{attributes.class.name}) = #{attributes}\n"\
             "Backtrace:\n#{caller_locations.join("\n")}"
           )
